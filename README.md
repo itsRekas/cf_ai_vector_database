@@ -78,6 +78,29 @@ npm run dev
 
 Note: when running locally the AI binding will typically be mocked or unavailable in the dev environment; the deployed instance will run with the configured AI binding.
 
+Interactive walkthrough (try it on the deployed site)
+
+Follow these steps in your browser at the deployed URL to exercise the UI and API end-to-end:
+
+1. Open the deployed UI: `https://cf_ai_vector_database.cf-ai-vector-db.workers.dev/`.
+2. Click the "Insert" button in the toolbar to open the Insert form.
+3. Add the first record:
+  - `Index / ID`: `doc1`
+  - `Text`: `Hello from doc1`
+  - Click the `Insert` button. You should see a confirmation in the output area.
+4. Add a second record:
+  - `Index / ID`: `doc2`
+  - `Text`: `Greetings from doc2`
+  - Click the `Insert` button.
+5. Click the "Query" button to open the Query form.
+  - In `Search text` enter a term that matches one of the inserted texts, for example `Hello`.
+  - Optionally adjust `k` (default 5).
+  - Click `Search` (or press Enter). The results area will display the top-k matches and similarity scores.
+6. To verify deletion, click the "Delete" button, enter `doc1` for the ID and click `Delete`.
+7. Return to the Query form and run the same search again (`Hello`). `doc1` should no longer appear in the results.
+
+This quick sequence demonstrates the full cycle: insert -> query -> delete -> query (observe change).
+
 ## Configuration / Bindings
 
 The worker expects the following bindings to be configured in `wrangler.jsonc` or via the dashboard:
@@ -124,3 +147,6 @@ npm test
 ## AI-assisted coding
 
 This project contains code created and modified with AI assistance. AI was used to help give insights to implement features and generate tests;
+
+This project belongs to Reginald Kotey Appiah-Sekyere. I take full responsibility for and ownership of this project.
+
