@@ -1,19 +1,20 @@
 import type { Env } from "./interfaces";
 
 export async function getEmbedding(env: Env, text: string): Promise<number[]> {
-    try {
-        const ai_response = await env.AI.run("@cf/meta/llama-3.3-8b-instruct", {
-            messages: [
-                { role: "system", content: "Generate a numerical embedding array for the following text:" },
-                { role: "user", content: text },
-            ],
-        });
-        const embedding: number[] = JSON.parse(ai_response.response);
-        return embedding;
-    } catch (error) {
-        throw new Error("Error generating embedding");
-    }
+  if (!env.AI) throw new Error("AI binding is missing in deployment");
+
+  try {
+    const ai_response = await env.AI.run("@cf/baai/bge-m3", {
+        text: text,
+        size: 256
+    });
+    return ai_response.data[0];
+  } catch (err) {
+    console.error("AI call failed:", err);
+    throw new Error("Error generating embedding: " + (err as Error).message);
+  }
 }
+
 
 export function cosineSimilarity(vector_A: number[], vector_B: number[]): number {
     const dotProduct = vector_A.reduce((sum, a, idx) => sum + a * vector_B[idx], 0);

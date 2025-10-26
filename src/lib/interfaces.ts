@@ -10,7 +10,7 @@ export interface InsertRequest {
 
 export interface QueryRequest {
   text: string;
-  top_k?: number;
+  k?: number;
 }
 
 export interface DeleteRequest {

@@ -7,7 +7,8 @@ export default async function insert(env: Env, id: string, text: string): Promis
         await env.VECTOR_KV.put(id, JSON.stringify({ text, embedding }));
         return true;
     } catch (error) {
-        throw new Error("Error during insert");
+        console.error("Insert failed:", error);
+        throw error;
     }
     
 }

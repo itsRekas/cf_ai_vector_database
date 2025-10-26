@@ -25,6 +25,7 @@ export default {
 				}
 				try{
 					const { id, text } = (await request.json()) as InsertRequest;
+					console.log("Insert request received:", { id, text });
 					const success = await insert(env, id, text);
 					return new Response(JSON.stringify({ success }), { status: success ? 200 : 500 });
 				} catch (error) {
@@ -36,8 +37,8 @@ export default {
 					return new Response("Method Not Allowed", { status: 405 });
 				}
 				try{
-					const { text, top_k=5 } = (await request.json()) as QueryRequest;
-					const results = await query(env, text, top_k);
+					const { text, k } = (await request.json()) as QueryRequest;
+					const results = await query(env, text, k ?? 5);
 					return new Response(JSON.stringify({ results }), { status: 200 });
 				} catch (error) {
 					return new Response("Bad Request", { status: 400, statusText: (error as Error).message });
